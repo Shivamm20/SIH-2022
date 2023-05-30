@@ -164,38 +164,38 @@ export default function DashboardApp() {
   const [districtData] = state.districtApi.districtData;
   console.log(districtData);
 
-  function AdminLogin(){
+  function AdminLogin() {
     return (
       <>
         <div className="text-center">
-        <Link to="/login" className="btn btn-primary">Admin LOGIN to view detailed data!! </Link>
+          <Link to="/login" className="btn btn-primary">Admin LOGIN to view detailed data!! </Link>
         </div>
       </>
     );
   }
-  function DistrictData({districtData}) {
+  function DistrictData({ districtData }) {
     return (
       <>
-          <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell>Name</TableCell>
-                  <TableCell align="center">Total Students</TableCell>
-                  <TableCell align="Center">Students Dropped</TableCell>
-                  {/* <TableCell align="Center"></TableCell>
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>Name</TableCell>
+                <TableCell align="center">Total Students</TableCell>
+                <TableCell align="Center">Students Dropped</TableCell>
+                {/* <TableCell align="Center"></TableCell>
                    <TableCell align="Center"></TableCell> */}
-                </TableRow>
-              </TableHead>
-              <TableBody align="center">
-                {districtData.map((row, index, arr) => (
-                  <Row key={row.id} row={row} arr={arr} />
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        
+              </TableRow>
+            </TableHead>
+            <TableBody align="center">
+              {districtData.map((row, index, arr) => (
+                <Row key={row.id} row={row} arr={arr} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
       </>
     );
   }
@@ -304,19 +304,19 @@ export default function DashboardApp() {
                 { label: 'Manipur', value: 430 },
                 { label: 'Meghalaya', value: 448 },
                 { label: 'Mizoram', value: 400 },
-                { label: 'Nagaland', value: 430 },
-                { label: 'Odisha', value: 448 },
-                { label: 'Punjab', value: 400 },
+                { label: 'Nagaland', value: 1330 },
+                { label: 'Odisha', value: 1048 },
+                { label: 'Punjab', value: 410 },
                 { label: 'Rajasthan', value: 430 },
-                { label: 'Sikkim', value: 448 },
-                { label: 'Tamil Nadu', value: 448 },
-                { label: 'Telangana', value: 448 },
-                { label: 'Tripura', value: 448 },
-                { label: 'Uttarakhand', value: 448 },
-                { label: 'Uttar Pradesh', value: 448 },
-                { label: 'West Bengal', value: 448 },
+                { label: 'Sikkim', value: 468 },
+                { label: 'Tamil Nadu', value: 400 },
+                { label: 'Telangana', value: 498 },
+                { label: 'Tripura', value: 148 },
+                { label: 'Uttarakhand', value: 1448 },
+                { label: 'Uttar Pradesh', value: 1048 },
+                { label: 'West Bengal', value: 948 },
                 { label: 'Andaman and Nicobar', value: 448 },
-                { label: 'Chandigarh', value: 448 },
+                { label: 'Chandigarh', value: 848 },
                 { label: 'Dadara and Nagar Haveli and Daman and Diu', value: 448 },
                 { label: 'Delhi', value: 448 },
                 { label: 'Jammu and Kashmir', value: 448 },
@@ -327,10 +327,10 @@ export default function DashboardApp() {
             />
           </Grid>
           <Grid item xs={20} md={6} lg={8}>
-          {districtData.length===0?<AdminLogin/>:<DistrictData districtData={districtData}/>}
-              </Grid>
+            {districtData.length === 0 ? <AdminLogin /> : <DistrictData districtData={districtData} />}
+          </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="New Scholarships and Policies"
               list={[...Array(5)].map((_, index) => ({
@@ -341,7 +341,7 @@ export default function DashboardApp() {
                 postedAt: faker.date.recent(),
               }))}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

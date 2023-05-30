@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const userCtrl = {
   register: async (req, res) => {
     try {
-      const { name, email, password ,user_type} = req.body;
+      const { name, email, password, user_type } = req.body;
       const user = await Users.findOne({ email });
       if (user)
         return res.status(400).json({ msg: "The email already exists." });
@@ -17,7 +17,7 @@ const userCtrl = {
 
       //Password Encryption
       const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new Users({ name, email, password: passwordHash ,user_type});
+      const newUser = new Users({ name, email, password: passwordHash, user_type });
 
       //save mongodb
       await newUser.save();
@@ -29,7 +29,7 @@ const userCtrl = {
       res.cookie("refreshtoken", refreshtoken, {
         httpOnly: true,
         path: "/user/refresh_token",
-        maxAge:7*24*60*60*1000 //7d
+        maxAge: 7 * 24 * 60 * 60 * 1000 //7d
       });
       res.json({ accesstoken });
     } catch (err) {
@@ -53,7 +53,7 @@ const userCtrl = {
       res.cookie("refreshtoken", refreshtoken, {
         httpOnly: true,
         path: "/user/refresh_token",
-        maxAge:7*24*60*60*1000 //7d 
+        maxAge: 7 * 24 * 60 * 60 * 1000 //7d 
       });
 
       res.json({ accesstoken });
@@ -63,12 +63,24 @@ const userCtrl = {
   },
   logout: async (req, res) => {
     try {
-      await res.clearCookie("refreshtoken",{path:'/user/refresh_token'})
-      return res.json({msg:"Logged Out"})
+      await res.clearCookie("refreshtoken", { path: '/user/refresh_token' })
+      return res.json({ msg: "Logged Out" })
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
+
+  getUsers: async (req, res) => {
+    try {
+      const user = await Users.find({ role: 0 });
+      console.log(user);
+      return res.json({ success: true, user });
+    } catch (err) {
+      return res.status(500).json({ success: false, msg: err.message });
+    }
+  },
+
+
   refreshToken: (req, res) => {
     try {
       const rf_token = req.cookies.refreshtoken;

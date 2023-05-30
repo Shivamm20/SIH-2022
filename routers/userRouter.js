@@ -9,4 +9,6 @@ router.post("/logout", userCtrl.logout);
 
 router.get("/refresh_token", userCtrl.refreshToken);
 
-module.exports= router;
+router.get("/getUsers", userCtrl.getUsers);
+
+module.exports = router;
