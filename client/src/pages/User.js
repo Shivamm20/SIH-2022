@@ -1,8 +1,13 @@
-import { filter } from 'lodash';
+import { filter,sample } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
+import { faker } from '@faker-js/faker';
+import axios from 'axios';
+// import { } from 'lodash';
+// import {  } from 'react';
+
 import {
   Card,
   Table,
@@ -26,22 +31,14 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
+// import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
 
-// const TABLE_HEAD = [
-//   { id: 'name', label: 'Name', alignRight: false },
-//   { id: 'company', label: 'Company', alignRight: false },
-//   { id: 'role', label: 'Role', alignRight: false },
-//   { id: 'isVerified', label: 'Verified', alignRight: false },
-//   { id: 'status', label: 'Status', alignRight: false },
-//   { id: '' },
-// ];
-
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false }
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -76,6 +73,24 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+  const [USERLIST,setUsers]=useState([]);
+  const getUsers=async ()=>{
+    try {
+      const res=await axios.get('/user/getUsers');
+      console.log(res);
+      const arr=res.data.data.map((_,index)=>{
+        _.role=_.user_type
+        return _;
+      })
+      setUsers(arr);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    getUsers();
+  },[])
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -165,8 +180,9 @@ export default function User() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                    const { name,role } = row;
+                    const id=index;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -183,20 +199,21 @@ export default function User() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        {/* <TableCell align="left">{company}</TableCell> */}
+                        {/* <TableCell align="left">{role}</TableCell> */}
+                        <TableCell align="left">{role?"Collaborator":"Student"}</TableCell>
+                        {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="left">
                           <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
                           </Label>
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell align="right">
                           <UserMoreMenu />
